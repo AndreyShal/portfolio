@@ -6,11 +6,11 @@ import {Icon} from "./components/icon/Icon";
 function App() {
     return (
         <div className="App">
-            {/*<GridContainer>*/}
-            {/*    <GridItem>1</GridItem>*/}
-            {/*    <GridItem>2</GridItem>*/}
-            {/*    <GridItem>3</GridItem>*/}
-            {/*</GridContainer>            */}
+            <GridContainer>
+                <GridItem>1</GridItem>
+                <GridItem>2</GridItem>
+                <GridItem>3</GridItem>
+            </GridContainer>
             <GridContainer>
                 <GridItem>
                     <GridSubItem>1.1</GridSubItem>
