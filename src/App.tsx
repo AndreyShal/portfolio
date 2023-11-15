@@ -1,42 +1,47 @@
-import './App.css';
-import styled from 'styled-components';
+import styled, {ThemeProvider} from 'styled-components';
 import {Icon} from "./components/icon/Icon";
+import Header from "./layout/header/Header";
+import {Menu} from "./components/menu/Menu";
+import Main from "./layout/main/Main";
+import React, {useState} from "react";
+import {lightTheme, darkTheme} from "./styles/Theme.styled";
+import {ThemeContext} from "./context/ThemeContext";
+import {GlobalStyles} from "./styles/GlobalStyles";
+import {ThemeEnum} from "./styles/interfaces/styled";
 
 
 function App() {
+    const [theme, setTheme] = useState(true);
     return (
-        <div className="App">
-            <GridContainer>
-                <GridItem>1</GridItem>
-                <GridItem>2</GridItem>
-                <GridItem>3</GridItem>
-            </GridContainer>
-            <GridContainer>
-                <GridItem>
-                    <GridSubItem>1.1</GridSubItem>
-                    <GridSubItem>1.2</GridSubItem>
-                    <GridSubItem>1.3</GridSubItem>
-                    <GridSubItem>1.4</GridSubItem>
-                </GridItem>
-                <GridItem>2</GridItem>
-                <GridItem>3</GridItem>
-            </GridContainer>
-        </div>
+        <ThemeProvider theme={theme ? lightTheme : darkTheme}>
+            <Container>
+                <Header theme={theme} setTheme={setTheme}/>
+                <Main/>
+            </Container>
+            <GlobalStyles/>
+        </ThemeProvider>
     );
 }
 
 export default App;
 
-const GridContainer = styled.div`
+const Container = styled.div`
+  max-width: 1193px;
+  margin: 0 auto;
+  padding-top: 40px;
+  padding-bottom: 60px;
+`;
+
+const GridContainer2 = styled.div`
   display: grid;
   //grid-template-columns: repeat(auto-fill, minmax(200px, auto));
   grid-template-columns: repeat(auto-fit, minmax(200px, auto));
   grid-auto-rows: 200px;
   gap: 10px;
 `;
-const GridItem = styled.div`
+const GridItem2 = styled.div`
   background-color: aqua;
-  
+
   &:first-child {
     display: grid;
     grid-template-columns: 50px 50px;
@@ -44,7 +49,7 @@ const GridItem = styled.div`
   }
 `;
 
-const GridSubItem = styled.div`
+const GridSubItem2 = styled.div`
   background-color: #1aff00;
 `;
 
@@ -63,7 +68,7 @@ const GridContainer1 = styled.div`
   //"one two three four"
   //"five five six eight"
   //"five five seven eight";
-  
+
   @media screen and (max-width: 1200px) {
     grid-template-columns: repeat(4, 1fr);
   }
