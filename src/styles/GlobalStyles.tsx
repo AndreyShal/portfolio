@@ -14,7 +14,10 @@ export function fontFace(name: string, src: string, fontWeight: number, fontStyl
 }
 
 export const GlobalStyles = createGlobalStyle`
+  ${fontFace("DM Sans", 'DMSans/DMSans-Regular', 400, 'normal')}
   ${fontFace("DM Sans", 'DMSans/DMSans-Medium', 500, 'normal')}
+  ${fontFace("Poppins", 'Poppins/Poppins-Light', 300, 'normal')}
+  ${fontFace("Poppins", 'Poppins/Poppins-Regular', 400, 'normal')}
   ${fontFace("Poppins", 'Poppins/Poppins-Bold', 700, 'normal')}
   
   *,
@@ -25,7 +28,18 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  *:focus-visible {
+    outline: 2px solid ${({theme}) => theme.colors.content};
+  }
+
+  html {
+    line-height: 1.15; /* 1 */
+    -webkit-text-size-adjust: 100%; /* 2 */
+    overflow-x: hidden;
+  }
+
   body {
+    overflow-x: hidden;
     background-color: ${({ theme }) => theme.colors.background};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

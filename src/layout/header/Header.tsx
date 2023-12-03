@@ -1,34 +1,62 @@
 import {Logo} from "../../components/logo/Logo";
-import {Menu} from "../../components/menu/Menu";
-import {SocialNetwork} from "../../components/socialNetwork/SocialNetwork";
 import styled from "styled-components";
-import {darkTheme, lightTheme} from "../../styles/Theme.styled";
-import {ThemeEnum} from "../../styles/interfaces/styled";
-import {Icon} from "../../components/icon/Icon";
+import {Container} from "../../components/Container";
+import {S} from "./Header_Styles"
+import React, {useEffect, useState} from "react";
+import {DesktopMenu} from "./headerMenu/desktopMenu/DesktopMenu";
+import {MobileMenu} from "./headerMenu/mobileMenu/MobileMenu";
 
-export const Header = ({theme, setTheme}: any) => {
-    console.log({theme})
+const menuItems = ["Home", "About", "Tech Stack", "Projects", "Contact"];
+
+export const Header: React.FC<any> = ({theme, setTheme}) => {
+    const  [width, setWidth] = React.useState(window.innerWidth);
+    const breakpoint = 810;
+
+    useEffect(()=> {
+        const handleWindowResize = () => setWidth(window.innerWidth);
+        window.addEventListener("resize", handleWindowResize);
+
+        return () => window.removeEventListener("resize", handleWindowResize)
+    },[]);
+
+    const [position, setPosition] = useState(window.pageYOffset)
+    const [visible, setVisible] = useState(true)
+    useEffect(()=> {
+        const handleScroll = () => {
+            let moving = window.pageYOffset
+
+            setVisible(position > moving);
+            setPosition(moving)
+        };
+        window.addEventListener("scroll", handleScroll);
+        return(() => {
+            window.removeEventListener("scroll", handleScroll);
+        })
+    })
+
     return (
-        <StyledHeader>
-            <Logo/>
-            <Menu/>
-            <SocialNetwork/>
-            <Theme onClick={() => setTheme(!theme)}><Icon iconId={theme ? "theme-light" : "theme-dark"} /></Theme>
-        </StyledHeader>
+        <S.Header visible={visible}>
+            <Container>
+                <Inner>
+                    <Logo/>
+                    {width < breakpoint ? <MobileMenu menuItems={menuItems} theme={theme} setTheme={setTheme}/> : <DesktopMenu menuItems={menuItems} theme={theme} setTheme={setTheme}/>}
+                </Inner>
+            </Container>
+        </S.Header>
     )
 }
 
 export default Header;
 
-const StyledHeader = styled.header`
-  width: 100%;
-  display: grid;
-  grid-template-columns: auto 1fr auto auto;
-  gap: 50px;
+
+
+const Inner = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+
+  @media ${props => props.theme.media.laptop} {
+    gap: 20px;
+  }
 `
 
-const Theme = styled.div`
-  justify-self: center;
-  align-self: center;
-  cursor: pointer;
-`
